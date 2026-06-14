@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>French for Mandeep</title>
+
+<style>
+
+/* ===== GLOBAL ===== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    padding:20px;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* ===== APP CONTAINER ===== */
+.main-container{
+    width:100%;
+    max-width:900px;
+    text-align:center;
+}
+
+/* ===== TITLE ===== */
+h1{
+    font-size:26px;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    font-size:14px;
+    opacity:0.9;
+    margin-bottom:15px;
+}
+
+/* ===== INTRO BOX ===== */
+.info-box{
+    background:white;
+    color:black;
+    padding:15px;
+    border-radius:12px;
+    margin:15px auto;
+    max-width:600px;
+    font-size:14px;
+    line-height:1.5;
+}
+
+/* ===== GRID ===== */
+.alphabet{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(60px,1fr));
+    gap:10px;
+    margin-top:20px;
+}
+
+/* ===== LETTER BUTTONS ===== */
+.letter-btn{
+    height:60px;
+    border:none;
+    border-radius:12px;
+    background:white;
+    color:#5b21b6;
+    font-size:20px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.letter-btn:active{
+    transform:scale(0.95);
+}
+
+/* ===== CARD ===== */
+.card{
+    background:white;
+    color:black;
+    margin:20px auto;
+    padding:20px;
+    border-radius:16px;
+    max-width:350px;
+}
+
+/* ===== BIG LETTER ===== */
+#bigLetter{
+    font-size:70px;
+    color:#5b21b6;
+}
+
+/* ===== BUTTON ===== */
+#audioBtn{
+    margin-top:15px;
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#5b21b6;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+#audioBtn:active{
+    transform:scale(0.97);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="main-container">
+
+<h1>French for Mandeep</h1>
+
+
+
+<!-- 👇 SIMPLE EXPLANATION -->
+<div class="info-box">
+👉 First, we start by learning how to pronounce the French alphabet. <br>
+Tap a letter and listen carefully. Repeat the sound like a baby learning language.
+</div>
+
+<!-- ALPHABET -->
+<div class="alphabet" id="alphabet"></div>
+
+<!-- DISPLAY CARD -->
+<div class="card">
+
+    <div id="bigLetter">A</div>
+
+    <button id="audioBtn" onclick="playSound()">
+        🔊 Listen
+    </button>
+
+</div>
+
+</div>
+
+<script>
+
+const letters = [
+{l:"A",s:"a"},
+{l:"B",s:"bé"},
+{l:"C",s:"cé"},
+{l:"D",s:"dé"},
+{l:"E",s:"e"},
+{l:"F",s:"effe"},
+{l:"G",s:"gé"},
+{l:"H",s:"ache"},
+{l:"I",s:"i"},
+{l:"J",s:"ji"},
+{l:"K",s:"ka"},
+{l:"L",s:"elle"},
+{l:"M",s:"emme"},
+{l:"N",s:"enne"},
+{l:"O",s:"o"},
+{l:"P",s:"pé"},
+{l:"Q",s:"ku"},
+{l:"R",s:"er"},
+{l:"S",s:"esse"},
+{l:"T",s:"té"},
+{l:"U",s:"u"},
+{l:"V",s:"vé"},
+{l:"W",s:"double vé"},
+{l:"X",s:"ix"},
+{l:"Y",s:"igrec"},
+{l:"Z",s:"zède"}
+];
+
+let currentSound = "a";
+
+const container = document.getElementById("alphabet");
+
+letters.forEach(item => {
+
+    const btn = document.createElement("button");
+    btn.className = "letter-btn";
+    btn.innerText = item.l;
+
+    btn.onclick = () => {
+        document.getElementById("bigLetter").innerText = item.l;
+        currentSound = item.s;
+        speak(currentSound);
+    };
+
+    container.appendChild(btn);
+});
+
+function speak(text){
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.lang = "fr-FR";
+    speech.rate = 0.85;
+    speechSynthesis.speak(speech);
+}
+
+function playSound(){
+    speak(currentSound);
+}
+
+</script>
+
+</body>
+</html>
