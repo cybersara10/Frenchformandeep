@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +9,7 @@
 
 <style>
 
+/* ===== GLOBAL ===== */
 *{
     margin:0;
     padding:0;
@@ -18,75 +20,95 @@
 body{
     min-height:100vh;
     background: linear-gradient(135deg, #667eea, #764ba2);
-    padding:12px;
+    padding:20px;
     color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-/* HEADER */
+/* ===== APP CONTAINER ===== */
+.main-container{
+    width:100%;
+    max-width:900px;
+    text-align:center;
+}
+
+/* ===== TITLE ===== */
 h1{
-    text-align:center;
-    font-size:20px;
-    margin-top:10px;
-}
-
-.info-box{
-    background:white;
-    color:black;
-    padding:12px;
-    border-radius:12px;
-    margin:12px auto;
-    max-width:600px;
-    font-size:13px;
-    line-height:1.4;
-}
-
-/* GRID */
-.alphabet{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(50px,1fr));
-    gap:8px;
-    margin-top:15px;
-}
-
-/* SMALLER LETTERS (FIXED) */
-.letter-btn{
-    height:48px;
-    border:none;
-    border-radius:10px;
-    background:white;
-    color:#5b21b6;
-    font-size:16px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-/* CARD (fixed for iPhone) */
-.card{
-    background:white;
-    color:black;
-    margin:15px auto;
-    padding:15px;
-    border-radius:14px;
-    max-width:320px;
-    text-align:center;
-}
-
-/* BIG LETTER (smaller than before) */
-#bigLetter{
-    font-size:50px;
-    color:#5b21b6;
+    font-size:26px;
     margin-bottom:10px;
 }
 
-/* BUTTON */
+.subtitle{
+    font-size:14px;
+    opacity:0.9;
+    margin-bottom:15px;
+}
+
+/* ===== INTRO BOX ===== */
+.info-box{
+    background:white;
+    color:black;
+    padding:15px;
+    border-radius:12px;
+    margin:15px auto;
+    max-width:600px;
+    font-size:14px;
+    line-height:1.5;
+}
+
+/* ===== GRID ===== */
+.alphabet{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(60px,1fr));
+    gap:10px;
+    margin-top:20px;
+}
+
+/* ===== LETTER BUTTONS ===== */
+.letter-btn{
+    height:60px;
+    border:none;
+    border-radius:12px;
+    background:white;
+    color:#5b21b6;
+    font-size:20px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.letter-btn:active{
+    transform:scale(0.95);
+}
+
+/* ===== CARD ===== */
+.card{
+    background:white;
+    color:black;
+    margin:20px auto;
+    padding:20px;
+    border-radius:16px;
+    max-width:350px;
+}
+
+/* ===== BIG LETTER ===== */
+#bigLetter{
+    font-size:70px;
+    color:#5b21b6;
+}
+
+/* ===== BUTTON ===== */
 #audioBtn{
+    margin-top:15px;
     width:100%;
     padding:12px;
     border:none;
     border-radius:10px;
     background:#5b21b6;
     color:white;
-    font-size:15px;
+    font-size:16px;
     cursor:pointer;
 }
 
@@ -94,32 +116,36 @@ h1{
     transform:scale(0.97);
 }
 
-.subtitle{
-    text-align:center;
-    font-size:12px;
-    opacity:0.9;
-    margin-top:5px;
-}
-
 </style>
 </head>
 
 <body>
 
-<h1>🇫🇷 French for Mandeep</h1>
-<p class="subtitle">Tap a letter and listen</p>
+<div class="main-container">
 
+<h1>French for Mandeep</h1>
+
+
+
+<!-- 👇 SIMPLE EXPLANATION -->
 <div class="info-box">
-👉 Start by learning how to pronounce French letters. Tap and listen carefully.
+👉 First, we start by learning how to pronounce the French alphabet. <br>
+
 </div>
 
+<!-- ALPHABET -->
 <div class="alphabet" id="alphabet"></div>
 
+<!-- DISPLAY CARD -->
 <div class="card">
 
     <div id="bigLetter">A</div>
 
-    <button id="audioBtn">🔊 Listen</button>
+    <button id="audioBtn" onclick="playSound()">
+        🔊 Listen
+    </button>
+
+</div>
 
 </div>
 
@@ -157,19 +183,6 @@ const letters = [
 let currentSound = "a";
 
 const container = document.getElementById("alphabet");
-const bigLetter = document.getElementById("bigLetter");
-const audioBtn = document.getElementById("audioBtn");
-
-/* FIX FOR IPHONE AUDIO (VERY IMPORTANT) */
-function speak(text){
-
-    const speech = new SpeechSynthesisUtterance(text);
-    speech.lang = "fr-FR";
-    speech.rate = 0.85;
-
-    speechSynthesis.cancel(); // important for iPhone
-    speechSynthesis.speak(speech);
-}
 
 letters.forEach(item => {
 
@@ -178,21 +191,24 @@ letters.forEach(item => {
     btn.innerText = item.l;
 
     btn.onclick = () => {
-
-        bigLetter.innerText = item.l;
+        document.getElementById("bigLetter").innerText = item.l;
         currentSound = item.s;
-
-        // auto play on tap (important for mobile)
         speak(currentSound);
     };
 
     container.appendChild(btn);
 });
 
-/* listen button */
-audioBtn.onclick = () => {
+function speak(text){
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.lang = "fr-FR";
+    speech.rate = 0.85;
+    speechSynthesis.speak(speech);
+}
+
+function playSound(){
     speak(currentSound);
-};
+}
 
 </script>
 
